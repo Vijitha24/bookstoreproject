@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.4.1/dist/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+</head>
+<body>
+
+{% if not cart_items %}
+<p> Your cart is empty </p>
+
+{% else %}
+
+<table class="table table-bordered table-light" style="width:75%">
+  <thead>
+    <tr>
+      <th scope="col"> No</th>
+      <th scope="col">Book Name</th>
+      <th scope="col">Author</th>
+      <th scope="col">Price</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for item in cart_items %}
+    <tr>
+      <th scope="row">1</th>
+      <td>{{item.book.title}}</td>
+      <td>{{item.book.author}}</td>
+      <td>{{item.book.price}}</td>
+
+      <td><a href="{% url 'remove_cart' item.id %}"> Remove </a></td>
+      {% if item.quantity <= item.book.quantity %}
+      <td><a href="{% url 'decrease_quantity' item.id  %}"> - </a></td><br>
+      <td><input type="number"  name="quantity" value="{{item.quantity}}"> Quantity</td>
+      <td><a href="{% url 'increase_quantity' item.id  %}"> + </a></td>
+        {% endif %}
+    </tr>
+  {% endfor %}
+  </tbody>
+</table>
+
+{% endif %}
+<form action="{% url 'checkout' %}" method="post">
+  {% csrf_token %}
+
+<div class="card" style="width: 18rem;">
+  <div class="card-body">
+    <h5 class="card-title">Total Products : {{total_items}}</h5>
+    <h6 class="card-subtitle mb-2 text-body-secondary">Total Price : {{total_price}}</h6>
+    <button id="checkout-button "  type="submit"  class="card_link" > Check Out</button>
+
+  </div>
+</div>
+</form>
+</body>
+</html>

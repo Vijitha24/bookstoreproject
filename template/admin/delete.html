@@ -1,0 +1,15 @@
+{% extends 'admin/base.html' %}
+{% load static %}
+{% block content %}
+
+<h3>Delete Book{{book.title}}</h3>
+
+<form action="" method="post">
+    {% csrf_token %}
+    <h3>Are You Sure ?</h3>
+    <input type="submit" value="Confirm delete">
+
+</form>
+
+
+{% endblock %}
